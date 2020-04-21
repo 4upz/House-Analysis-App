@@ -44,32 +44,32 @@ export default class Form extends React.Component {
 
     handlePriceChange(event) {
         const price = event.target.value;
-        this.setState({ price: price });
+        this.setState({ price: parseFloat(price) });
     }
 
     handleLoanChange(event) {
         const loanAmount = event.target.value;
-        this.setState({ loanAmount: loanAmount });
+        this.setState({ loanAmount: parseFloat(loanAmount) });
     }
 
     handleInterestChange(event) {
         const interest = event.target.value;
-        this.setState({ interest: interest });
+        this.setState({ interest: parseFloat(interest) });
     }
 
     handlePeriodChange(event) {
         const loanPeriod = event.target.value;
-        this.setState({ loanPeriod: loanPeriod });
+        this.setState({ loanPeriod: parseFloat(loanPeriod) });
     }
 
     handleRentChange(event) {
         const rent = event.target.value;
-        this.setState({ rent: rent });
+        this.setState({ rent: parseFloat(rent) });
     }
 
     handleExpensesChange(event) {
         const expenses = event.target.value;
-        this.setState({ expenses: expenses });
+        this.setState({ expenses: parseFloat(expenses) });
     }
 
     handleSubmit(event) {
@@ -174,7 +174,7 @@ export default class Form extends React.Component {
                                 onChange={this.handleInterestChange}
                                 type="number"
                                 id="interest"
-                                placeholder="15"
+                                placeholder="5"
                                 aria-describedby="interest-helper-text"
                             />
                             <FormHelperText
