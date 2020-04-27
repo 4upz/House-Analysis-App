@@ -21,7 +21,8 @@ export default class App extends React.Component {
             outOfPocketCosts: 0,
             monthlyMortgagePayment: 0,
             estimatedIncome: 0,
-            estimatedExpenses: 0,
+            estimatedInitialExpenses: 0,
+            estimatedMonthlyExpenses: 0,
             cashFlow: 0,
             cocROI: 0,
             totalROI: 0,
@@ -30,9 +31,17 @@ export default class App extends React.Component {
         this.calculateResults = this.calculateResults.bind(this);
     }
 
-    calculateResults(price, loanAmount, interestRate, period, rent, expenses) {
+    calculateResults(
+        price,
+        loanAmount,
+        interestRate,
+        period,
+        rent,
+        initialExpenses,
+        monthlyExpenses
+    ) {
         // Step One: Purchase Cost
-        const totalProjectCost = price + expenses;
+        const totalProjectCost = price + initialExpenses;
         // Step Two: Total Cost Out of Pocket
         const outOfPocketCosts = totalProjectCost - loanAmount;
         // Step Three: Calculate the monthly mortgage payment (loan amortization)
@@ -44,22 +53,24 @@ export default class App extends React.Component {
         // Step Four: Determine Total Income
         const totalIncome = rent;
         // Step Five: Determine Total Expenses
-        const totalExpenses = expenses;
+        const totalExpenses = monthlyExpenses;
 
         // Step Six: Evaluate the Deal
-        /* ***** TODO: Incorporate total invested capital so that this roi is accurate ***** */
+        const totalProfit = price - initialExpenses - outOfPocketCosts;
         // cocROI = annualCashFlow / totalInvestedCapital
-        // totalROI = (totalProfit / totalInvestedCapital) / period
+        // totalROI = (totalProfit / totalInvestedCapital) / time (before selling)
         const cashFlow = totalIncome - totalExpenses;
-        const cocROI = (cashFlow * 12) / outOfPocketCosts;
-        const totalROI = (cashFlow * 12 * period) / outOfPocketCosts / period;
+        const cocROI = ((cashFlow * 12) / outOfPocketCosts) * 100;
+        
+        // TODO: Add a feature to see the different totalROI across adjustable time period
+        const totalROI = ((totalProfit / outOfPocketCosts) / period) * 100;
 
         this.setState({
             totalProjectCost: totalProjectCost,
             outOfPocketCosts: outOfPocketCosts,
             monthlyMortgagePayment: monthlyMortgagePayment,
             estimatedIncome: totalIncome,
-            estimatedExpenses: totalExpenses,
+            estimatedInitialExpenses: totalExpenses,
             cashFlow: cashFlow,
             cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
             totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
@@ -94,24 +105,25 @@ export default class App extends React.Component {
                     {/* Form for taking House Info */}
                     <Form calculateResults={this.calculateResults} />
                     {/* Only Renders when form is submitted */}
-                    {this.state.displayResults && (
                         <Results
                             totalProjectCost={this.state.totalProjectCost}
                             outOfPocketCosts={this.state.outOfPocketCosts}
                             monthlyMortgagePayment={
                                 this.state.monthlyMortgagePayment
                             }
-                            estimatedIncome={this.state.estimatedIncome}
-                            estimatedExpenses={this.state.estimatedExpenses}
+                            estimatedMonthlyIncome={this.state.estimatedIncome}
+                            estimatedMonthlyExpenses={
+                                this.state.estimatedMonthlyExpenses
+                            }
                             cashFlow={this.state.cashFlow}
                             cocROI={this.state.cocROI}
                             totalROI={this.state.totalROI}
                         />
-                    )}
+                    )
                     <Box className="Footer" py={6} mt={3}>
                         <footer>
                             <Text fontSize="sm">
-                                Inspired by {" "}
+                                Inspired by{" "}
                                 <Link
                                     color="teal.500"
                                     href="https://www.biggerpockets.com/buy_and_hold_results/new"
@@ -119,7 +131,10 @@ export default class App extends React.Component {
                                     Bigger Pockets Property Analysis Tool
                                 </Link>
                             </Text>
-                            <Text fontSize="sm">Copyright &copy; {new Date().getFullYear()} Smith & Butler LLC</Text>
+                            <Text fontSize="sm">
+                                Copyright &copy; {new Date().getFullYear()}{" "}
+                                Smith & Butler LLC
+                            </Text>
                         </footer>
                     </Box>
                 </Box>
@@ -145,11 +160,11 @@ function Results(props) {
                     {props.monthlyMortgagePayment.toLocaleString()}
                 </Text>
                 <Text>
-                    Estimated Income: ${props.estimatedIncome.toLocaleString()}
+                    Estimated Monthly Income: ${props.estimatedMonthlyIncome.toLocaleString()}
                 </Text>
                 <Text>
-                    Estimated Expenses: $
-                    {props.estimatedExpenses.toLocaleString()}
+                    Estimated Monthly Expenses: $
+                    {props.estimatedMonthlyExpenses.toLocaleString()}
                 </Text>
                 <Text>Cash Flow: ${props.cashFlow.toLocaleString()}</Text>
                 <Text>

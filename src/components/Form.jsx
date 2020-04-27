@@ -6,6 +6,11 @@ import {
     FormHelperText,
     Input,
     Flex,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
 } from "@chakra-ui/core";
 
 export default class Form extends React.Component {
@@ -19,57 +24,25 @@ export default class Form extends React.Component {
             interest: 0,
             loanPeriod: 0,
             rent: 0,
-            expenses: 0,
+            initialExpenses: 0,
+            monthlyExpenses: 0,
         };
-        this.handleAddressChange = this.handleAddressChange.bind(this);
-        this.handleZipCodeChange = this.handleZipCodeChange.bind(this);
-        this.handlePriceChange = this.handlePriceChange.bind(this);
-        this.handleLoanChange = this.handleLoanChange.bind(this);
-        this.handleInterestChange = this.handleInterestChange.bind(this);
-        this.handlePeriodChange = this.handlePeriodChange.bind(this);
-        this.handleRentChange = this.handleRentChange.bind(this);
-        this.handleExpensesChange = this.handleExpensesChange.bind(this);
+        this.handleNumberChange = this.handleNumberChange.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleAddressChange(event) {
-        const address = event.target.value;
-        this.setState({ address: address });
+    // Updates the state based on the change target value and using its name as a dynamic key name
+    handleTextChange(event) {
+        const value = event.target.value;
+        this.setState({ [event.target.name]: value });
     }
 
-    handleZipCodeChange(event) {
-        const zip = event.target.value;
-        this.setState({ zip: zip });
-    }
-
-    handlePriceChange(event) {
-        const price = event.target.value;
-        this.setState({ price: parseFloat(price) });
-    }
-
-    handleLoanChange(event) {
-        const loanAmount = event.target.value;
-        this.setState({ loanAmount: parseFloat(loanAmount) });
-    }
-
-    handleInterestChange(event) {
-        const interest = event.target.value;
-        this.setState({ interest: parseFloat(interest) });
-    }
-
-    handlePeriodChange(event) {
-        const loanPeriod = event.target.value;
-        this.setState({ loanPeriod: parseFloat(loanPeriod) });
-    }
-
-    handleRentChange(event) {
-        const rent = event.target.value;
-        this.setState({ rent: parseFloat(rent) });
-    }
-
-    handleExpensesChange(event) {
-        const expenses = event.target.value;
-        this.setState({ expenses: parseFloat(expenses) });
+    // Variant for number values (until I find a way to combine these methods)
+    handleNumberChange(event) {
+        // Should store the value as a float if the input expects a number
+        const value = parseFloat(event.target.value);
+        this.setState({ [event.target.name]: value });
     }
 
     handleSubmit(event) {
@@ -84,7 +57,8 @@ export default class Form extends React.Component {
             this.state.interest,
             this.state.loanPeriod,
             this.state.rent,
-            this.state.expenses
+            this.state.initialExpenses,
+            this.state.monthlyExpenses
         );
     }
 
@@ -92,7 +66,7 @@ export default class Form extends React.Component {
         return (
             <Flex alignItems="center">
                 <form
-                    style={{ width: "40%", margin: "auto" }}
+                    style={{ width: "60%", margin: "auto" }}
                     onSubmit={this.handleSubmit}
                 >
                     {/* House Location Information */}
@@ -101,7 +75,9 @@ export default class Form extends React.Component {
                         <FormControl w="40%">
                             <FormLabel htmlFor="address">Address</FormLabel>
                             <Input
-                                onChange={this.handleAddressChange}
+                                name="address"
+                                value={this.state.address}
+                                onChange={this.handleTextChange}
                                 type="text"
                                 id="address"
                                 placeholder="42 Wallaby Way Sydney, Australia"
@@ -118,7 +94,9 @@ export default class Form extends React.Component {
                         <FormControl w="40%">
                             <FormLabel htmlFor="zip">Zip Code</FormLabel>
                             <Input
-                                onChange={this.handleZipCodeChange}
+                                name="zip"
+                                value={this.state.zip}
+                                onChange={this.handleTextChange}
                                 type="text"
                                 id="zip"
                                 placeholder="12345"
@@ -138,7 +116,9 @@ export default class Form extends React.Component {
                                 Purchase Price
                             </FormLabel>
                             <Input
-                                onChange={this.handlePriceChange}
+                                name="price"
+                                value={this.state.price}
+                                onChange={this.handleNumberChange}
                                 type="number"
                                 id="price"
                                 placeholder="120000"
@@ -152,7 +132,9 @@ export default class Form extends React.Component {
                         <FormControl w="40%">
                             <FormLabel htmlFor="loan">Loan Amount</FormLabel>
                             <Input
-                                onChange={this.handleLoanChange}
+                                name="loanAmount"
+                                value={this.state.loanAmount}
+                                onChange={this.handleNumberChange}
                                 type="number"
                                 id="loan"
                                 placeholder="100000"
@@ -171,7 +153,9 @@ export default class Form extends React.Component {
                                 Loan Interest Rate
                             </FormLabel>
                             <Input
-                                onChange={this.handleInterestChange}
+                                name="interest"
+                                value={this.state.interest}
+                                onChange={this.handleNumberChange}
                                 type="number"
                                 id="interest"
                                 placeholder="5"
@@ -189,13 +173,23 @@ export default class Form extends React.Component {
                             <FormLabel htmlFor="loan-period">
                                 Loan Period
                             </FormLabel>
-                            <Input
-                                onChange={this.handlePeriodChange}
+                            <NumberInput
+                                defaultValue={20}
+                                min={0}
+                                max={50}
+                                name="loanPeriod"
+                                onChange={this.handleNumberChange}
                                 type="number"
                                 id="loan-period"
                                 placeholder="20"
                                 aria-describedby="loan-period-helper-text"
-                            />
+                            >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                </NumberInputStepper>
+                            </NumberInput>
                             <FormHelperText
                                 id="loan-period-helper-text"
                                 mb="0.5rem"
@@ -206,13 +200,15 @@ export default class Form extends React.Component {
                     </Flex>
                     {/* Income and Expenses information */}
                     <Flex justifyContent="space-between">
-                        <FormControl w="40%">
+                        <FormControl w="30%">
                             {/* Estimated Monthly Rent */}
                             <FormLabel htmlFor="rent">
                                 Estimated Monthly Rent
                             </FormLabel>
                             <Input
-                                onChange={this.handleRentChange}
+                                name="rent"
+                                value={this.state.rent}
+                                onChange={this.handleNumberChange}
                                 type="number"
                                 id="rent"
                                 placeholder="1200"
@@ -222,23 +218,46 @@ export default class Form extends React.Component {
                                 Exclude commas and use US dollars.
                             </FormHelperText>
                         </FormControl>
-                        {/* Total Estimated Expenses */}
-                        <FormControl w="40%">
-                            <FormLabel htmlFor="expenses">
-                                Total Estimated Expenses
+                        {/* Initial Expenses */}
+                        <FormControl w="30%">
+                            <FormLabel htmlFor="initial-expenses">
+                                Estimated Initial Expenses
                             </FormLabel>
                             <Input
-                                onChange={this.handleExpensesChange}
+                                name="initialExpenses"
+                                value={this.state.initialExpenses}
+                                onChange={this.handleNumberChange}
                                 type="number"
-                                id="expenses"
-                                placeholder="700"
-                                aria-describedby="expenses-helper-text"
+                                id="initial-expenses"
+                                placeholder="17000"
+                                aria-describedby="initial-expenses-helper-text"
                             />
                             <FormHelperText
-                                id="expenses-helper-text"
+                                id="initial-expenses-helper-text"
                                 mb="0.5rem"
                             >
-                                Rough estimate, no need to be precise.
+                                Closing costs, initial repairs, etc.
+                            </FormHelperText>
+                        </FormControl>
+                        {/* Recurring Monthly Expenses */}
+                        <FormControl w="30%">
+                            <FormLabel htmlFor="monthly-expenses">
+                                Estimated Monthly Expenses
+                            </FormLabel>
+                            <Input
+                                name="monthlyExpenses"
+                                value={this.state.monthlyExpenses}
+                                onChange={this.handleNumberChange}
+                                type="number"
+                                id="monthly-expenses"
+                                placeholder="902.27"
+                                aria-describedby="monthly-expenses-helper-text"
+                            />
+                            <FormHelperText
+                                id="monthly-expenses-helper-text"
+                                mb="0.5rem"
+                            >
+                                Recurring bills including gas, electric, etc.
                             </FormHelperText>
                         </FormControl>
                     </Flex>
