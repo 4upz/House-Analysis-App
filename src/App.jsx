@@ -8,6 +8,7 @@ import {
     CSSReset,
     Heading,
     Box,
+    Flex,
     Text,
     Stack,
     Link,
@@ -53,7 +54,7 @@ export default class App extends React.Component {
         // Step Four: Determine Total Income
         const totalIncome = rent;
         // Step Five: Determine Total Expenses
-        const totalExpenses = monthlyExpenses;
+        const totalExpenses = monthlyExpenses + monthlyMortgagePayment;
 
         // Step Six: Evaluate the Deal
         const totalProfit = price - initialExpenses - outOfPocketCosts;
@@ -61,16 +62,17 @@ export default class App extends React.Component {
         // totalROI = (totalProfit / totalInvestedCapital) / time (before selling)
         const cashFlow = totalIncome - totalExpenses;
         const cocROI = ((cashFlow * 12) / outOfPocketCosts) * 100;
-        
+
         // TODO: Add a feature to see the different totalROI across adjustable time period
-        const totalROI = ((totalProfit / outOfPocketCosts) / period) * 100;
+        const totalROI = (totalProfit / outOfPocketCosts / period) * 100;
 
         this.setState({
             totalProjectCost: totalProjectCost,
             outOfPocketCosts: outOfPocketCosts,
             monthlyMortgagePayment: monthlyMortgagePayment,
             estimatedIncome: totalIncome,
-            estimatedInitialExpenses: totalExpenses,
+            estimatedInitialExpenses: initialExpenses,
+            estimatedMonthlyExpenses: totalExpenses,
             cashFlow: cashFlow,
             cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
             totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
@@ -102,9 +104,10 @@ export default class App extends React.Component {
                     <Heading textAlign="center" mb={4}>
                         Rental Property Analysis
                     </Heading>
-                    {/* Form for taking House Info */}
-                    <Form calculateResults={this.calculateResults} />
-                    {/* Only Renders when form is submitted */}
+                    <Flex alignItems="center" justifyContent="space-around">
+                        {/* Form for taking House Info */}
+                        <Form calculateResults={this.calculateResults} />
+                        {/* Only Renders when form is submitted */}
                         <Results
                             totalProjectCost={this.state.totalProjectCost}
                             outOfPocketCosts={this.state.outOfPocketCosts}
@@ -119,7 +122,7 @@ export default class App extends React.Component {
                             cocROI={this.state.cocROI}
                             totalROI={this.state.totalROI}
                         />
-                    )
+                    </Flex>
                     <Box className="Footer" py={6} mt={3}>
                         <footer>
                             <Text fontSize="sm">
@@ -160,7 +163,8 @@ function Results(props) {
                     {props.monthlyMortgagePayment.toLocaleString()}
                 </Text>
                 <Text>
-                    Estimated Monthly Income: ${props.estimatedMonthlyIncome.toLocaleString()}
+                    Estimated Monthly Income: $
+                    {props.estimatedMonthlyIncome.toLocaleString()}
                 </Text>
                 <Text>
                     Estimated Monthly Expenses: $
