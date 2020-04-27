@@ -18,6 +18,15 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            address: "",
+            zip: "",
+            price: 0,
+            loanAmount: 0,
+            interest: 0,
+            loanPeriod: 0,
+            rent: 0,
+            initialExpenses: 0,
+            monthlyExpenses: 0,
             totalProjectCost: 0,
             outOfPocketCosts: 0,
             monthlyMortgagePayment: 0,
@@ -27,57 +36,54 @@ export default class App extends React.Component {
             cashFlow: 0,
             cocROI: 0,
             totalROI: 0,
-            dislayResults: false,
         };
         this.calculateResults = this.calculateResults.bind(this);
+        this.updatePropertyInfo = this.updatePropertyInfo.bind(this);
     }
 
-    calculateResults(
-        price,
-        loanAmount,
-        interestRate,
-        period,
-        rent,
-        initialExpenses,
-        monthlyExpenses
-    ) {
+    // Updates the state based on the given field and its updated value
+    updatePropertyInfo(field, newVal) {
+        this.setState({ [field]: newVal });
+    }
+
+    calculateResults() {
         // Step One: Purchase Cost
-        const totalProjectCost = price + initialExpenses;
+        const totalProjectCost = this.state.price + this.state.initialExpenses;
         // Step Two: Total Cost Out of Pocket
-        const outOfPocketCosts = totalProjectCost - loanAmount;
+        const outOfPocketCosts = totalProjectCost - this.state.loanAmount;
         // Step Three: Calculate the monthly mortgage payment (loan amortization)
         const monthlyMortgagePayment = this.calculatedMonthlyMortgage(
-            loanAmount,
-            interestRate,
-            period
+            this.state.loanAmount,
+            this.state.interestRate,
+            this.state.period
         );
         // Step Four: Determine Total Income
-        const totalIncome = rent;
+        const totalIncome = this.state.rent;
         // Step Five: Determine Total Expenses
-        const totalExpenses = monthlyExpenses + monthlyMortgagePayment;
+        const totalExpenses = this.state.monthlyExpenses + monthlyMortgagePayment;
 
         // Step Six: Evaluate the Deal
-        const totalProfit = price - initialExpenses - outOfPocketCosts;
+        const totalProfit = this.state.price - this.state.initialExpenses - outOfPocketCosts;
         // cocROI = annualCashFlow / totalInvestedCapital
         // totalROI = (totalProfit / totalInvestedCapital) / time (before selling)
         const cashFlow = totalIncome - totalExpenses;
         const cocROI = ((cashFlow * 12) / outOfPocketCosts) * 100;
 
         // TODO: Add a feature to see the different totalROI across adjustable time period
-        const totalROI = (totalProfit / outOfPocketCosts / period) * 100;
+        const totalROI = (totalProfit / outOfPocketCosts / this.state.period) * 100;
 
-        this.setState({
+        const results = {
             totalProjectCost: totalProjectCost,
             outOfPocketCosts: outOfPocketCosts,
             monthlyMortgagePayment: monthlyMortgagePayment,
-            estimatedIncome: totalIncome,
-            estimatedInitialExpenses: initialExpenses,
+            estimatedMonthlyIncome: totalIncome,
+            estimatedInitialExpenses: this.state.initialExpenses,
             estimatedMonthlyExpenses: totalExpenses,
             cashFlow: cashFlow,
             cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
             totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
-            displayResults: true,
-        });
+        }
+        return results;
     }
 
     calculatedMonthlyMortgage(loanAmount, interestRate, period) {
@@ -97,30 +103,25 @@ export default class App extends React.Component {
     }
 
     render() {
+        const results = this.calculateResults();
         return (
             <ThemeProvider>
                 <CSSReset />
-                <Box className="App">
+                <Box className="App" backgroundColor="gray.50">
                     <Heading textAlign="center" mb={4}>
                         Rental Property Analysis
                     </Heading>
                     <Flex alignItems="center" justifyContent="space-around">
                         {/* Form for taking House Info */}
-                        <Form calculateResults={this.calculateResults} />
+                        <Form
+                            updatePropertyInfo={this.updatePropertyInfo}
+                            calculateResults={this.calculateResults}
+                        />
                         {/* Only Renders when form is submitted */}
                         <Results
-                            totalProjectCost={this.state.totalProjectCost}
-                            outOfPocketCosts={this.state.outOfPocketCosts}
-                            monthlyMortgagePayment={
-                                this.state.monthlyMortgagePayment
-                            }
-                            estimatedMonthlyIncome={this.state.estimatedIncome}
-                            estimatedMonthlyExpenses={
-                                this.state.estimatedMonthlyExpenses
-                            }
-                            cashFlow={this.state.cashFlow}
-                            cocROI={this.state.cocROI}
-                            totalROI={this.state.totalROI}
+                            address={this.state.address}
+                            zip={this.state.zip}
+                            results={results}
                         />
                     </Flex>
                     <Box className="Footer" py={6} mt={3}>
@@ -147,36 +148,50 @@ export default class App extends React.Component {
 }
 
 function Results(props) {
+    const results = props.results;
+    const header =
+        props.address === "" && props.zip === ""
+            ? " "
+            : `Showing Analysis for ${props.address}, ${props.zip}`;
     return (
-        <Box my={6}>
+        <Box
+            className="Card-Display"
+            p={5}
+            w="40%"
+            my={6}
+            backgroundColor="white"
+        >
             <Stack align="center">
+                <Heading as="h2" size="md">
+                    {header}
+                </Heading>
                 <Text>
                     Total Projected Cost: $
-                    {props.totalProjectCost.toLocaleString()}
+                    {results.totalProjectCost.toLocaleString()}
                 </Text>
                 <Text>
                     Out of Pocket Cost: $
-                    {props.outOfPocketCosts.toLocaleString()}
+                    {results.outOfPocketCosts.toLocaleString()}
                 </Text>
                 <Text>
                     Monthly Mortgage Payment: $
-                    {props.monthlyMortgagePayment.toLocaleString()}
+                    {results.monthlyMortgagePayment.toLocaleString()}
                 </Text>
                 <Text>
                     Estimated Monthly Income: $
-                    {props.estimatedMonthlyIncome.toLocaleString()}
+                    {results.estimatedMonthlyIncome.toLocaleString()}
                 </Text>
                 <Text>
                     Estimated Monthly Expenses: $
-                    {props.estimatedMonthlyExpenses.toLocaleString()}
+                    {results.estimatedMonthlyExpenses.toLocaleString()}
                 </Text>
-                <Text>Cash Flow: ${props.cashFlow.toLocaleString()}</Text>
+                <Text>Cash Flow: ${results.cashFlow.toLocaleString()}</Text>
                 <Text>
                     Cash on Cash Return on Investment:{" "}
-                    {props.cocROI.toLocaleString()}%
+                    {results.cocROI.toLocaleString()}%
                 </Text>
                 <Text>
-                    Total Return on Investment {props.totalROI.toLocaleString()}
+                    Total Return on Investment {results.totalROI.toLocaleString()}
                     %
                 </Text>
             </Stack>
