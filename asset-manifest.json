@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/House-Analysis-App/static/css/main.ff48e021.chunk.css",
-    "main.js": "/House-Analysis-App/static/js/main.f073bd7f.chunk.js",
-    "main.js.map": "/House-Analysis-App/static/js/main.f073bd7f.chunk.js.map",
+    "main.js": "/House-Analysis-App/static/js/main.549eff87.chunk.js",
+    "main.js.map": "/House-Analysis-App/static/js/main.549eff87.chunk.js.map",
     "runtime-main.js": "/House-Analysis-App/static/js/runtime-main.bdb1d42e.js",
     "runtime-main.js.map": "/House-Analysis-App/static/js/runtime-main.bdb1d42e.js.map",
-    "static/js/2.d0030c8d.chunk.js": "/House-Analysis-App/static/js/2.d0030c8d.chunk.js",
-    "static/js/2.d0030c8d.chunk.js.map": "/House-Analysis-App/static/js/2.d0030c8d.chunk.js.map",
+    "static/js/2.fa832e62.chunk.js": "/House-Analysis-App/static/js/2.fa832e62.chunk.js",
+    "static/js/2.fa832e62.chunk.js.map": "/House-Analysis-App/static/js/2.fa832e62.chunk.js.map",
     "index.html": "/House-Analysis-App/index.html",
-    "precache-manifest.ec06353320a9f7f651f3a71131a7b9df.js": "/House-Analysis-App/precache-manifest.ec06353320a9f7f651f3a71131a7b9df.js",
+    "precache-manifest.288102e71e25b353758d77e38094326c.js": "/House-Analysis-App/precache-manifest.288102e71e25b353758d77e38094326c.js",
     "service-worker.js": "/House-Analysis-App/service-worker.js",
     "static/css/main.ff48e021.chunk.css.map": "/House-Analysis-App/static/css/main.ff48e021.chunk.css.map",
-    "static/js/2.d0030c8d.chunk.js.LICENSE.txt": "/House-Analysis-App/static/js/2.d0030c8d.chunk.js.LICENSE.txt"
+    "static/js/2.fa832e62.chunk.js.LICENSE.txt": "/House-Analysis-App/static/js/2.fa832e62.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.bdb1d42e.js",
-    "static/js/2.d0030c8d.chunk.js",
+    "static/js/2.fa832e62.chunk.js",
     "static/css/main.ff48e021.chunk.css",
-    "static/js/main.f073bd7f.chunk.js"
+    "static/js/main.549eff87.chunk.js"
   ]
 }
