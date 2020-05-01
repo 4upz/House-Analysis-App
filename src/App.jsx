@@ -10,8 +10,11 @@ import {
     Box,
     Flex,
     Text,
-    Stack,
     Link,
+    StatGroup,
+    Stat,
+    StatLabel,
+    StatNumber,
 } from "@chakra-ui/core";
 
 export default class App extends React.Component {
@@ -159,46 +162,74 @@ function Results(props) {
             my={6}
             backgroundColor="white"
         >
-            <Stack align="center">
-                <Heading as="h2" size="md">
-                    {header}
-                </Heading>
-                <Text>
-                    Total Projected Cost: $
-                    {formattedNumDisplayOf(results.totalProjectCost)}
-                </Text>
-                <Text>
-                    Out of Pocket Cost: $
-                    {formattedNumDisplayOf(results.outOfPocketCosts)}
-                </Text>
-                <Text>
-                    Monthly Mortgage Payment: $
-                    {formattedNumDisplayOf(results.monthlyMortgagePayment)}
-                </Text>
-                <Text>
-                    Estimated Monthly Income: $
-                    {formattedNumDisplayOf(results.estimatedMonthlyIncome)}
-                </Text>
-                <Text>
-                    Estimated Monthly Expenses: $
-                    {formattedNumDisplayOf(results.estimatedMonthlyExpenses)}
-                </Text>
-                <Text>Cash Flow: ${formattedNumDisplayOf(results.cashFlow)}</Text>
-                <Text>
-                    Cash on Cash Return on Investment:{" "}
-                    {formattedNumDisplayOf(results.cocROI)}%
-                </Text>
-                <Text>
-                    Total Return on Investment{" "}
-                    {formattedNumDisplayOf(results.totalROI)}%
-                </Text>
-            </Stack>
+            <Heading textAlign="center" as="h2" size="md">
+                {header}
+            </Heading>
+            <StatGroup>
+                <Stat>
+                    <StatLabel>Total Projected Cost</StatLabel>
+                    <StatNumber>
+                        ${formattedNumDisplayOf(results.totalProjectCost)}
+                    </StatNumber>
+                </Stat>
+                <Stat>
+                    <StatLabel>Out of Pocket Cost</StatLabel>
+                    <StatNumber>
+                        ${formattedNumDisplayOf(results.outOfPocketCosts)}
+                    </StatNumber>
+                </Stat>
+                <Stat>
+                    <StatLabel>Monthly Mortgage Payment</StatLabel>
+                    <StatNumber>
+                        ${formattedNumDisplayOf(results.monthlyMortgagePayment)}
+                    </StatNumber>
+                </Stat>
+            </StatGroup>
+            <StatGroup justifyContent="space-between">
+                <Stat>
+                    <StatLabel>Estimated Monthly Income</StatLabel>
+                    <StatNumber>
+                        ${formattedNumDisplayOf(results.estimatedMonthlyIncome)}
+                    </StatNumber>
+                </Stat>
+                <Stat>
+                    <StatLabel>Estimated Monthly Expenses</StatLabel>
+                    <StatNumber>
+                        $
+                        {formattedNumDisplayOf(
+                            results.estimatedMonthlyExpenses
+                        )}
+                    </StatNumber>
+                </Stat>
+            </StatGroup>
+            <StatGroup>
+                <Stat>
+                    <StatLabel>Cash Flow</StatLabel>
+                    <StatNumber>
+                        ${formattedNumDisplayOf(results.cashFlow)}
+                    </StatNumber>
+                </Stat>
+                <Stat>
+                    <StatLabel>Cash on Cash Return on Investment</StatLabel>
+                    <StatNumber>
+                        {formattedNumDisplayOf(results.cocROI)}%
+                    </StatNumber>
+                </Stat>
+            </StatGroup>
+            <StatGroup textAlign="center">
+                <Stat>
+                    <StatLabel>Total Return on Investment</StatLabel>
+                    <StatNumber>
+                        {formattedNumDisplayOf(results.totalROI)}%
+                    </StatNumber>
+                </Stat>
+            </StatGroup>
         </Box>
     );
 }
 
 /* **** Utility Functions **** */
 // If the result is not a number or not yet calculated, display it as 0
-function formattedNumDisplayOf(resultNumber){
-    return isNaN(resultNumber) ? "0" : resultNumber.toLocaleString();
+function formattedNumDisplayOf(resultNumber) {
+    return isFinite(resultNumber) ? resultNumber.toLocaleString() : "0";
 }
