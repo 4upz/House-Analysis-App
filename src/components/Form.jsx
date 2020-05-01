@@ -16,7 +16,7 @@ export default class Form extends React.Component {
             zip: "",
             price: 0,
             loanAmount: 0,
-            interest: 0,
+            interestRate: 0,
             loanPeriod: 0,
             rent: 0,
             initialExpenses: 0,
@@ -38,21 +38,11 @@ export default class Form extends React.Component {
     handleNumberChange(event) {
         event.preventDefault();
         // Should store the value as a float if the input expects a number
-        const value = (isNaN(event.target.value)) ? 0 : parseFloat(event.target.value);
+        const value = isNaN(event.target.value)
+            ? 0
+            : parseFloat(event.target.value);
         this.setState({ [event.target.name]: value });
         this.props.updatePropertyInfo(event.target.name, value);
-    }
-
-    startAnalysis() {
-        this.props.calculateResults(
-            this.state.price,
-            this.state.loanAmount,
-            this.state.interest,
-            this.state.loanPeriod,
-            this.state.rent,
-            this.state.initialExpenses,
-            this.state.monthlyExpenses
-        );
     }
 
     render() {
@@ -60,9 +50,9 @@ export default class Form extends React.Component {
             <Box backgroundColor="white" w="55%" p={5} className="Card-Display">
                 <form onSubmit={this.handleSubmit}>
                     {/* House Location Information */}
-                    <Flex justifyContent="space-between">
+                    <Flex flexWrap="wrap" justifyContent="space-between">
                         {/* Address Field */}
-                        <FormControl w="40%">
+                        <FormControl>
                             <FormLabel htmlFor="address">Address</FormLabel>
                             <Input
                                 name="address"
@@ -81,7 +71,7 @@ export default class Form extends React.Component {
                             </FormHelperText>
                         </FormControl>
                         {/* Zip Code Field */}
-                        <FormControl w="40%">
+                        <FormControl>
                             <FormLabel htmlFor="zip">Zip Code</FormLabel>
                             <Input
                                 name="zip"
@@ -97,11 +87,9 @@ export default class Form extends React.Component {
                                 The 5 digit neighborhood code.
                             </FormHelperText>
                         </FormControl>
-                    </Flex>
-                    {/* Purchase Price & Information */}
-                    <Flex justifyContent="space-between">
+                        {/* Purchase Price & Information */}
                         {/* Purchase Price */}
-                        <FormControl w="40%">
+                        <FormControl>
                             <FormLabel htmlFor="price">
                                 Purchase Price
                             </FormLabel>
@@ -118,7 +106,7 @@ export default class Form extends React.Component {
                             </FormHelperText>
                         </FormControl>
                         {/* Loan Amount*/}
-                        <FormControl w="40%">
+                        <FormControl>
                             <FormLabel htmlFor="loan">Loan Amount</FormLabel>
                             <Input
                                 name="loanAmount"
@@ -132,19 +120,17 @@ export default class Form extends React.Component {
                                 Round to the nearest whole number.
                             </FormHelperText>
                         </FormControl>
-                    </Flex>
-                    {/* Loan Info Group */}
-                    <Flex justifyContent="space-between">
+                        {/* Loan Info Group */}
                         {/* Loan Interest Rate*/}
-                        <FormControl w="40%">
-                            <FormLabel htmlFor="interest">
+                        <FormControl>
+                            <FormLabel htmlFor="interestRate">
                                 Loan Interest Rate
                             </FormLabel>
                             <Input
-                                name="interest"
+                                name="interestRate"
                                 onChange={this.handleNumberChange}
                                 type="number"
-                                id="interest"
+                                id="interestRate"
                                 placeholder="5"
                                 aria-describedby="interest-helper-text"
                             />
@@ -156,7 +142,7 @@ export default class Form extends React.Component {
                             </FormHelperText>
                         </FormControl>
                         {/* Loan Period*/}
-                        <FormControl w="40%">
+                        <FormControl>
                             <FormLabel htmlFor="loan-period">
                                 Loan Period
                             </FormLabel>
@@ -177,10 +163,8 @@ export default class Form extends React.Component {
                                 Length of loan in years.
                             </FormHelperText>
                         </FormControl>
-                    </Flex>
-                    {/* Income and Expenses information */}
-                    <Flex justifyContent="space-between">
-                        <FormControl w="30%">
+                        {/* Income and Expenses information */}
+                        <FormControl>
                             {/* Estimated Monthly Rent */}
                             <FormLabel htmlFor="rent">
                                 Estimated Monthly Rent
@@ -198,7 +182,7 @@ export default class Form extends React.Component {
                             </FormHelperText>
                         </FormControl>
                         {/* Initial Expenses */}
-                        <FormControl w="30%">
+                        <FormControl>
                             <FormLabel htmlFor="initial-expenses">
                                 Estimated Initial Expenses
                             </FormLabel>
@@ -218,7 +202,7 @@ export default class Form extends React.Component {
                             </FormHelperText>
                         </FormControl>
                         {/* Recurring Monthly Expenses */}
-                        <FormControl w="30%">
+                        <FormControl>
                             <FormLabel htmlFor="monthly-expenses">
                                 Estimated Monthly Expenses
                             </FormLabel>
@@ -234,7 +218,7 @@ export default class Form extends React.Component {
                                 id="monthly-expenses-helper-text"
                                 mb="0.5rem"
                             >
-                                Recurring bills including gas, electric, etc.
+                                Recurring bills excluding mortgage.
                             </FormHelperText>
                         </FormControl>
                     </Flex>

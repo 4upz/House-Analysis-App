@@ -22,20 +22,11 @@ export default class App extends React.Component {
             zip: "",
             price: 0,
             loanAmount: 0,
-            interest: 0,
+            interestRate: 0,
             loanPeriod: 0,
             rent: 0,
             initialExpenses: 0,
             monthlyExpenses: 0,
-            totalProjectCost: 0,
-            outOfPocketCosts: 0,
-            monthlyMortgagePayment: 0,
-            estimatedIncome: 0,
-            estimatedInitialExpenses: 0,
-            estimatedMonthlyExpenses: 0,
-            cashFlow: 0,
-            cocROI: 0,
-            totalROI: 0,
         };
         this.calculateResults = this.calculateResults.bind(this);
         this.updatePropertyInfo = this.updatePropertyInfo.bind(this);
@@ -55,22 +46,25 @@ export default class App extends React.Component {
         const monthlyMortgagePayment = this.calculatedMonthlyMortgage(
             this.state.loanAmount,
             this.state.interestRate,
-            this.state.period
+            this.state.loanPeriod
         );
         // Step Four: Determine Total Income
         const totalIncome = this.state.rent;
         // Step Five: Determine Total Expenses
-        const totalExpenses = this.state.monthlyExpenses + monthlyMortgagePayment;
+        const totalExpenses =
+            this.state.monthlyExpenses + monthlyMortgagePayment;
 
         // Step Six: Evaluate the Deal
-        const totalProfit = this.state.price - this.state.initialExpenses - outOfPocketCosts;
+        const totalProfit =
+            this.state.price - this.state.initialExpenses - outOfPocketCosts;
         // cocROI = annualCashFlow / totalInvestedCapital
         // totalROI = (totalProfit / totalInvestedCapital) / time (before selling)
         const cashFlow = totalIncome - totalExpenses;
         const cocROI = ((cashFlow * 12) / outOfPocketCosts) * 100;
 
         // TODO: Add a feature to see the different totalROI across adjustable time period
-        const totalROI = (totalProfit / outOfPocketCosts / this.state.period) * 100;
+        const totalROI =
+            (totalProfit / outOfPocketCosts / this.state.loanPeriod) * 100;
 
         const results = {
             totalProjectCost: totalProjectCost,
@@ -82,7 +76,7 @@ export default class App extends React.Component {
             cashFlow: cashFlow,
             cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
             totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
-        }
+        };
         return results;
     }
 
@@ -111,7 +105,11 @@ export default class App extends React.Component {
                     <Heading textAlign="center" mb={4}>
                         Rental Property Analysis
                     </Heading>
-                    <Flex alignItems="center" justifyContent="space-around">
+                    <Flex
+                        className="Anlysis-Display"
+                        alignItems="center"
+                        justifyContent="space-around"
+                    >
                         {/* Form for taking House Info */}
                         <Form
                             updatePropertyInfo={this.updatePropertyInfo}
@@ -167,34 +165,40 @@ function Results(props) {
                 </Heading>
                 <Text>
                     Total Projected Cost: $
-                    {results.totalProjectCost.toLocaleString()}
+                    {formattedNumDisplayOf(results.totalProjectCost)}
                 </Text>
                 <Text>
                     Out of Pocket Cost: $
-                    {results.outOfPocketCosts.toLocaleString()}
+                    {formattedNumDisplayOf(results.outOfPocketCosts)}
                 </Text>
                 <Text>
                     Monthly Mortgage Payment: $
-                    {results.monthlyMortgagePayment.toLocaleString()}
+                    {formattedNumDisplayOf(results.monthlyMortgagePayment)}
                 </Text>
                 <Text>
                     Estimated Monthly Income: $
-                    {results.estimatedMonthlyIncome.toLocaleString()}
+                    {formattedNumDisplayOf(results.estimatedMonthlyIncome)}
                 </Text>
                 <Text>
                     Estimated Monthly Expenses: $
-                    {results.estimatedMonthlyExpenses.toLocaleString()}
+                    {formattedNumDisplayOf(results.estimatedMonthlyExpenses)}
                 </Text>
-                <Text>Cash Flow: ${results.cashFlow.toLocaleString()}</Text>
+                <Text>Cash Flow: ${formattedNumDisplayOf(results.cashFlow)}</Text>
                 <Text>
                     Cash on Cash Return on Investment:{" "}
-                    {results.cocROI.toLocaleString()}%
+                    {formattedNumDisplayOf(results.cocROI)}%
                 </Text>
                 <Text>
-                    Total Return on Investment {results.totalROI.toLocaleString()}
-                    %
+                    Total Return on Investment{" "}
+                    {formattedNumDisplayOf(results.totalROI)}%
                 </Text>
             </Stack>
         </Box>
     );
+}
+
+/* **** Utility Functions **** */
+// If the result is not a number or not yet calculated, display it as 0
+function formattedNumDisplayOf(resultNumber){
+    return isNaN(resultNumber) ? "0" : resultNumber.toLocaleString();
 }
