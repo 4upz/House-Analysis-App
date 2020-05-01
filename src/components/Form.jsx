@@ -105,6 +105,7 @@ export default class Form extends React.Component {
                                 Exclude commas and use US dollars.
                             </FormHelperText>
                         </FormControl>
+                        {/* Loan Info Group */}
                         {/* Loan Amount*/}
                         <FormControl>
                             <FormLabel htmlFor="loan">Loan Amount</FormLabel>
@@ -120,7 +121,6 @@ export default class Form extends React.Component {
                                 Round to the nearest whole number.
                             </FormHelperText>
                         </FormControl>
-                        {/* Loan Info Group */}
                         {/* Loan Interest Rate*/}
                         <FormControl>
                             <FormLabel htmlFor="interestRate">
@@ -148,7 +148,6 @@ export default class Form extends React.Component {
                             </FormLabel>
                             <Input
                                 min={0}
-                                max={50}
                                 name="loanPeriod"
                                 id="loan-period"
                                 placeholder="20"
