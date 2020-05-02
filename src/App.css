@@ -20,3 +20,9 @@
     /* hover styles */
     border-style: solid;
 }
+
+@media screen and (max-width: 52em) {
+    input {
+      text-align: center;
+    }
+  }

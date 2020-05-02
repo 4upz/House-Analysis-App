@@ -112,6 +112,7 @@ export default class App extends React.Component {
                         className="Anlysis-Display"
                         alignItems="center"
                         justifyContent="space-around"
+                        flexDir="column"
                     >
                         {/* Form for taking House Info */}
                         <Form
@@ -158,14 +159,19 @@ function Results(props) {
         <Box
             className="Card-Display"
             p={5}
-            w="40%"
+            width={["80%", "40%"]}
             my={6}
             backgroundColor="white"
         >
             <Heading textAlign="center" as="h2" size="md">
                 {header}
             </Heading>
-            <StatGroup>
+            <StatGroup
+                flexWrap="wrap"
+                alignContent="space-around"
+                justifyContent="space-between"
+                whiteSpace={{lg: "nowrap", sm: "normal"}}
+            >
                 <Stat>
                     <StatLabel>Total Projected Cost</StatLabel>
                     <StatNumber>
@@ -179,13 +185,11 @@ function Results(props) {
                     </StatNumber>
                 </Stat>
                 <Stat>
-                    <StatLabel>Monthly Mortgage Payment</StatLabel>
+                    <StatLabel>Monthly Mortgage</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.monthlyMortgagePayment)}
                     </StatNumber>
                 </Stat>
-            </StatGroup>
-            <StatGroup justifyContent="space-between">
                 <Stat>
                     <StatLabel>Estimated Monthly Income</StatLabel>
                     <StatNumber>
@@ -201,8 +205,6 @@ function Results(props) {
                         )}
                     </StatNumber>
                 </Stat>
-            </StatGroup>
-            <StatGroup>
                 <Stat>
                     <StatLabel>Cash Flow</StatLabel>
                     <StatNumber>
@@ -215,8 +217,6 @@ function Results(props) {
                         {formattedNumDisplayOf(results.cocROI)}%
                     </StatNumber>
                 </Stat>
-            </StatGroup>
-            <StatGroup textAlign="center">
                 <Stat>
                     <StatLabel>Total Return on Investment</StatLabel>
                     <StatNumber>

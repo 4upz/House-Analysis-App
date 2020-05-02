@@ -47,10 +47,16 @@ export default class Form extends React.Component {
 
     render() {
         return (
-            <Box backgroundColor="white" w="55%" p={5} className="Card-Display">
+            <Box
+                backgroundColor="white"
+                w="80%"
+                p={5}
+                textAlign={["center", "left"]}
+                className="Card-Display"
+            >
                 <form onSubmit={this.handleSubmit}>
                     {/* House Location Information */}
-                    <Flex flexWrap="wrap" justifyContent="space-between">
+                    <Flex flexWrap="wrap" justifyContent="space-between" justifyContent={["center", "space-between"]}>
                         {/* Address Field */}
                         <FormControl>
                             <FormLabel htmlFor="address">Address</FormLabel>
