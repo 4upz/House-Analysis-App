@@ -56,7 +56,7 @@ export default class Form extends React.Component {
             >
                 <form onSubmit={this.handleSubmit}>
                     {/* House Location Information */}
-                    <Flex flexWrap="wrap" justifyContent="space-between" justifyContent={["center", "space-between"]}>
+                    <Flex flexWrap="wrap" justifyContent={["center", "space-between"]}>
                         {/* Address Field */}
                         <FormControl>
                             <FormLabel htmlFor="address">Address</FormLabel>

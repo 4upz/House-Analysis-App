@@ -163,40 +163,42 @@ function Results(props) {
             my={6}
             backgroundColor="white"
         >
-            <Heading textAlign="center" as="h2" size="md">
+            <Heading textAlign="center" as="h2" size="md" mb={6}>
                 {header}
             </Heading>
             <StatGroup
                 flexWrap="wrap"
-                alignContent="space-around"
-                justifyContent="space-between"
-                whiteSpace={{lg: "nowrap", sm: "normal"}}
+                alignContent="center"
+                align="center"
+                justifyContent="space-evenly"
+                whiteSpace={{ lg: "nowrap", sm: "normal" }}
+                textAlign="center"
             >
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Total Projected Cost</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.totalProjectCost)}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Out of Pocket Cost</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.outOfPocketCosts)}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Monthly Mortgage</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.monthlyMortgagePayment)}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Estimated Monthly Income</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.estimatedMonthlyIncome)}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Estimated Monthly Expenses</StatLabel>
                     <StatNumber>
                         $
@@ -205,19 +207,19 @@ function Results(props) {
                         )}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Cash Flow</StatLabel>
                     <StatNumber>
                         ${formattedNumDisplayOf(results.cashFlow)}
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Cash on Cash Return on Investment</StatLabel>
                     <StatNumber>
                         {formattedNumDisplayOf(results.cocROI)}%
                     </StatNumber>
                 </Stat>
-                <Stat>
+                <Stat px={2}>
                     <StatLabel>Total Return on Investment</StatLabel>
                     <StatNumber>
                         {formattedNumDisplayOf(results.totalROI)}%
