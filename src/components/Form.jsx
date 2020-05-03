@@ -196,7 +196,7 @@ export default class Form extends React.Component {
                 onChange={this.handleNumberChange}
                 type="number"
                 id="monthly-expenses"
-                placeholder="902.27"
+                placeholder="350"
                 aria-describedby="monthly-expenses-helper-text"
               />
               <FormHelperText id="monthly-expenses-helper-text" mb="0.5rem">
