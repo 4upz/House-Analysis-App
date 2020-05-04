@@ -15,6 +15,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  StatHelpText,
 } from "@chakra-ui/core";
 
 export default class App extends React.Component {
@@ -172,47 +173,55 @@ function Results(props) {
         whiteSpace={{ lg: "nowrap", sm: "normal" }}
         textAlign="center"
       >
-        <Stat px={2}>
-          <StatLabel>Total Projected Cost</StatLabel>
+        <Stat px={2} minW="50%">
+          <StatLabel>Total Cost</StatLabel>
           <StatNumber>
             ${formattedNumDisplayOf(results.totalProjectCost)}
           </StatNumber>
+          <StatHelpText>Over Time</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Out of Pocket Cost</StatLabel>
+        <Stat px={2} minW="50">
+          <StatLabel>Cash Down</StatLabel>
           <StatNumber>
             ${formattedNumDisplayOf(results.outOfPocketCosts)}
           </StatNumber>
+          <StatHelpText>Needed</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Monthly Mortgage</StatLabel>
+        <Stat px={2} minW="50%">
+          <StatLabel>Mortgage</StatLabel>
           <StatNumber>
             ${formattedNumDisplayOf(results.monthlyMortgagePayment)}
           </StatNumber>
+          <StatHelpText>Per Month</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Estimated Monthly Income</StatLabel>
+        <Stat px={2} minW="50%">
+          <StatLabel>Rent Income</StatLabel>
           <StatNumber>
             ${formattedNumDisplayOf(results.estimatedMonthlyIncome)}
           </StatNumber>
+          <StatHelpText>Per Month</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Estimated Monthly Expenses</StatLabel>
+        <Stat px={2} minW="50%">
+          <StatLabel>Total Expenses</StatLabel>
           <StatNumber>
             ${formattedNumDisplayOf(results.estimatedMonthlyExpenses)}
           </StatNumber>
+          <StatHelpText>Per Month</StatHelpText>
         </Stat>
-        <Stat px={2}>
+        <Stat px={2} minW="50%">
           <StatLabel>Cash Flow</StatLabel>
           <StatNumber>${formattedNumDisplayOf(results.cashFlow)}</StatNumber>
+          <StatHelpText>Per Month</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Cash on Cash Return on Investment</StatLabel>
+        <Stat px={2} minW="50%%">
+          <StatLabel>Cash on Cash</StatLabel>
           <StatNumber>{formattedNumDisplayOf(results.cocROI)}%</StatNumber>
+          <StatHelpText>ROI</StatHelpText>
         </Stat>
-        <Stat px={2}>
-          <StatLabel>Total Return on Investment</StatLabel>
+        <Stat px={2} minW="50%">
+          <StatLabel>Total</StatLabel>
           <StatNumber>{formattedNumDisplayOf(results.totalROI)}%</StatNumber>
+          <StatHelpText>ROI</StatHelpText>
         </Stat>
       </StatGroup>
     </Box>
