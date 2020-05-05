@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/House-Analysis-App/precache-manifest.a66fa7116b0d1bc503f561efdeb55ac4.js"
+  "/House-Analysis-App/precache-manifest.edba89f17abaa8b5e51d62847aeb416e.js"
 );
 
 self.addEventListener('message', (event) => {
