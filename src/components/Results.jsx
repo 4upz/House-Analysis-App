@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Heading,
+  Text,
   Stat,
   StatLabel,
   StatHelpText,
@@ -50,7 +51,7 @@ export default function Results(props) {
           <StatNumber>
             ${formattedNumDisplayOf(results.outOfPocketCosts)}
           </StatNumber>
-          <StatHelpText>Needed</StatHelpText>
+          <StatHelpText>Out of Pocket</StatHelpText>
         </Stat>
         <Stat px={2} minW="50%">
           <StatLabel>Mortgage</StatLabel>
@@ -78,13 +79,30 @@ export default function Results(props) {
           <StatNumber>${formattedNumDisplayOf(results.cashFlow)}</StatNumber>
           <StatHelpText>Per Month</StatHelpText>
         </Stat>
+        <Stat px={2} minW="50%">
+          <StatLabel>Selling Price</StatLabel>
+          <StatNumber>
+            ${formattedNumDisplayOf(results.projectedSalesPrice)}
+          </StatNumber>
+          <StatHelpText>At time of Sale</StatHelpText>
+        </Stat>
+        <Stat px={2} minW="50%">
+          <StatLabel>Selling Expenses</StatLabel>
+          <StatNumber>
+            $
+            {results.totalProjectCost === 0
+              ? 0
+              : formattedNumDisplayOf(results.projectedSalesExpenses)}
+          </StatNumber>
+          <StatHelpText>At time of Sale</StatHelpText>
+        </Stat>
         <Stat px={2} minW="50%%">
           <StatLabel>Cash on Cash</StatLabel>
           <StatNumber>{formattedNumDisplayOf(results.cocROI)}%</StatNumber>
           <StatHelpText>ROI</StatHelpText>
         </Stat>
         <Stat px={2} minW="50%">
-          <StatLabel>Total</StatLabel>
+          <StatLabel>Total Return</StatLabel>
           <StatNumber>{formattedNumDisplayOf(results.totalROI)}%</StatNumber>
           <StatHelpText>ROI</StatHelpText>
         </Stat>
@@ -102,13 +120,17 @@ export default function Results(props) {
         <SliderThumb />
       </Slider>
       <Heading textAlign="center" as="h3" size="md">
-        {`After Holding for ${results.holdingTerm} Years Before Selling`}
+        After Holding for{" "}
+        <Text display="inline" color="teal.600" size="md">
+          {results.holdingTerm}
+        </Text>{" "}
+        {results.holdingTerm > 1 ? "Years" : "Year"} Before Selling
       </Heading>
     </Box>
   );
 }
 
-/* **** Utility Functions **** */
+/* *** Utility Functions *** */
 // If the result is not a number or not yet calculated, display it as 0
 function formattedNumDisplayOf(resultNumber) {
   return isFinite(resultNumber) ? resultNumber.toLocaleString() : "0";

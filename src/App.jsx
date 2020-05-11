@@ -87,9 +87,11 @@ export default class App extends React.Component {
     );
 
     // salesExpenses = 6% for real estate agent, 4,000 in closing costs, and 4% painting
-    const projectedSalesExpenses =
-      projectedSalesPrice * 0.06 + projectedSalesPrice * 0.04 + 4000;
-
+    const projectedSalesExpenses = Math.round(
+      projectedSalesPrice * 0.06 + projectedSalesPrice * 0.04 + 4000
+    );
+    
+    // Calculated overall profit at sale
     const totalProfit =
       projectedSalesPrice -
       projectedSalesExpenses -
@@ -111,10 +113,11 @@ export default class App extends React.Component {
       estimatedInitialExpenses: this.state.initialExpenses,
       estimatedMonthlyExpenses: totalExpenses,
       cashFlow: cashFlow,
-      cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
-      totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
+      cocROI: Math.round(100 * cocROI) / 100, // round to hundredth
+      totalROI: Math.round(100 * totalROI) / 100, // round to ten hundredth
       holdingTerm: this.state.holdingTerm,
-      projectedSalesPrice: this.state.projectedSalesPrice,
+      projectedSalesPrice: projectedSalesPrice,
+      projectedSalesExpenses: projectedSalesExpenses,
     };
     return results;
   }
@@ -144,7 +147,7 @@ export default class App extends React.Component {
     for (let i = 0; i < holdingTerm; i++) {
       currentEquity += currentEquity * 0.02;
     }
-    return currentEquity;
+    return Math.round(currentEquity);
   }
 
   render() {
