@@ -11,24 +11,19 @@ import {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.handleNumberChange = this.handleNumberChange.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   // Updates the state based on the change target value and using its name as a dynamic key name
-  handleTextChange(event) {
+  handleInputChange(event) {
     event.preventDefault();
-    const value = event.target.value;
-    this.props.updatePropertyInfo(event.target.name, value);
-  }
-
-  // Variant for number values (until I find a way to combine these methods)
-  handleNumberChange(event) {
-    event.preventDefault();
-    // Should store the value as a float if the input expects a number
-    const value = isNaN(event.target.value)
-      ? 0
-      : parseFloat(event.target.value);
+    let value;
+    // Retrieve appropriate value format based on input type
+    if (event.target.type === "text") {
+      value = event.target.value;
+    } else {
+      value = isNaN(event.target.value) ? 0 : parseFloat(event.target.value);
+    }
     this.props.updatePropertyInfo(event.target.name, value);
   }
 
@@ -49,7 +44,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="address">Address</FormLabel>
               <Input
                 name="address"
-                onChange={this.handleTextChange}
+                onChange={this.handleInputChange}
                 type="text"
                 id="address"
                 placeholder="21 Jump Street"
@@ -64,7 +59,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="zip">Zip Code</FormLabel>
               <Input
                 name="zip"
-                onChange={this.handleTextChange}
+                onChange={this.handleInputChange}
                 type="text"
                 id="zip"
                 placeholder="91210"
@@ -81,7 +76,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="price">Purchase Price</FormLabel>
               <Input
                 name="price"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="price"
                 placeholder="120000"
@@ -97,7 +92,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="loan">Loan Amount</FormLabel>
               <Input
                 name="loanAmount"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="loan"
                 placeholder="100000"
@@ -112,7 +107,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="interestRate">Loan Interest Rate</FormLabel>
               <Input
                 name="interestRate"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="interestRate"
                 placeholder="5"
@@ -131,7 +126,7 @@ export default class Form extends React.Component {
                 id="loan-period"
                 placeholder="20"
                 aria-describedby="loan-period-helper-text"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
               />
               <FormHelperText id="loan-period-helper-text" mb="0.5rem">
@@ -144,7 +139,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="rent">Estimated Monthly Rent</FormLabel>
               <Input
                 name="rent"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="rent"
                 placeholder="1200"
@@ -161,7 +156,7 @@ export default class Form extends React.Component {
               </FormLabel>
               <Input
                 name="initialExpenses"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="initial-expenses"
                 placeholder="17000"
@@ -178,7 +173,7 @@ export default class Form extends React.Component {
               </FormLabel>
               <Input
                 name="monthlyExpenses"
-                onChange={this.handleNumberChange}
+                onChange={this.handleInputChange}
                 type="number"
                 id="monthly-expenses"
                 placeholder="350"
