@@ -102,7 +102,7 @@ export default function Results(props) {
         <SliderThumb />
       </Slider>
       <Heading textAlign="center" as="h3" size="md">
-        {`After Holding For ${results.holdingTerm} Years`}
+        {`After Holding for ${results.holdingTerm} Years Before Selling`}
       </Heading>
     </Box>
   );

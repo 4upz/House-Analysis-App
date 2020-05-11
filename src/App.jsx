@@ -59,34 +59,50 @@ export default class App extends React.Component {
   }
 
   calculateResults() {
-    // Step One: Purchase Cost
+    /* *** Step One: Purchase Cost *** */
     const totalProjectCost = this.state.price + this.state.initialExpenses;
-    // Step Two: Total Cost Out of Pocket
+    /* *** Step Two: Total Cost Out of Pocket *** */
     const outOfPocketCosts = totalProjectCost - this.state.loanAmount;
-    // Step Three: Calculate the monthly mortgage payment (loan amortization)
+    /* *** Step Three: Calculate the monthly mortgage payment (loan amortization) *** */
     const monthlyMortgagePayment = this.calculatedMonthlyMortgage(
       this.state.loanAmount,
       this.state.interestRate,
       this.state.loanPeriod
     );
-    // Step Four: Determine Total Income
+    /* *** Step Four: Determine Total Income *** */
     const totalIncome = this.state.rent;
-    // Step Five: Determine Total Expenses
+    /* *** Step Five: Determine Total Expenses *** */
     const totalExpenses = this.state.monthlyExpenses + monthlyMortgagePayment;
 
-    // Step Six: Evaluate the Deal
+    /* *** Step Six: Evaluate the Deal *** */
+    const cashFlow = totalIncome - totalExpenses;
+    const remainingLoan =
+      this.state.loanAmount -
+      this.state.holdingTerm * monthlyMortgagePayment * 12;
+
+    // salesPrice = Projected equity of annual 2% increase
+    const projectedSalesPrice = this.calculatedHouseAppreciation(
+      this.state.price,
+      this.state.holdingTerm
+    );
+
+    // salesExpenses = 6% for real estate agent, 4,000 in closing costs, and 4% painting
+    const projectedSalesExpenses =
+      projectedSalesPrice * 0.06 + projectedSalesPrice * 0.04 + 4000;
+
     const totalProfit =
-      this.state.price - this.state.initialExpenses - outOfPocketCosts;
+      projectedSalesPrice -
+      projectedSalesExpenses -
+      remainingLoan -
+      outOfPocketCosts;
+
     // cocROI = annualCashFlow / totalInvestedCapital
     // totalROI = (totalProfit / totalInvestedCapital) / time (before selling)
-    const cashFlow = totalIncome - totalExpenses;
     const cocROI = ((cashFlow * 12) / outOfPocketCosts) * 100;
-
-    // TODO: Add a feature to see the different totalROI across adjustable time period
     const totalROI =
-      (totalProfit / outOfPocketCosts / this.state.loanPeriod) * 100;
+      (totalProfit / outOfPocketCosts / this.state.holdingTerm) * 100;
 
-    // Return the results as an object that can be called from the display
+    // Return the results as an object that can be called from the results component
     const results = {
       totalProjectCost: totalProjectCost,
       outOfPocketCosts: outOfPocketCosts,
@@ -98,16 +114,17 @@ export default class App extends React.Component {
       cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
       totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
       holdingTerm: this.state.holdingTerm,
+      projectedSalesPrice: this.state.projectedSalesPrice,
     };
     return results;
   }
 
+  /* 
+    Based on Monthly Fixed-Rate Mortgage method 
+    Follows steps provided by https://www.thebalance.com/calculate-mortgage-315668
+    Monthly Loan Payment = Loan Amount / Discount Factor 
+  */
   calculatedMonthlyMortgage(loanAmount, interestRate, period) {
-    /* 
-        Based on Monthly Fixed-Rate Mortgage method 
-        Follows steps provided by https://www.thebalance.com/calculate-mortgage-315668
-        Monthly Loan Payment = Loan Amount / Discount Factor 
-        */
     const numOfPeriodicPayments = period * 12;
     const periodicInterestRate = interestRate / 100 / 12;
     const discountFactor =
@@ -116,6 +133,18 @@ export default class App extends React.Component {
         Math.pow(1 + periodicInterestRate, numOfPeriodicPayments));
     // Round to nearest hundredth
     return Math.round(100 * (loanAmount / discountFactor)) / 100;
+  }
+
+  /*
+    Assumes an average appreciation of 2% per year and returns the 
+    projected equity after the length of the current holding term.
+  */
+  calculatedHouseAppreciation(price, holdingTerm) {
+    let currentEquity = price;
+    for (let i = 0; i < holdingTerm; i++) {
+      currentEquity += currentEquity * 0.02;
+    }
+    return currentEquity;
   }
 
   render() {
