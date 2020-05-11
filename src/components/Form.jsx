@@ -11,17 +11,6 @@ import {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      address: "",
-      zip: "",
-      price: 0,
-      loanAmount: 0,
-      interestRate: 0,
-      loanPeriod: 0,
-      rent: 0,
-      initialExpenses: 0,
-      monthlyExpenses: 0,
-    };
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
   }
@@ -30,7 +19,6 @@ export default class Form extends React.Component {
   handleTextChange(event) {
     event.preventDefault();
     const value = event.target.value;
-    this.setState({ [event.target.name]: value });
     this.props.updatePropertyInfo(event.target.name, value);
   }
 
@@ -41,7 +29,6 @@ export default class Form extends React.Component {
     const value = isNaN(event.target.value)
       ? 0
       : parseFloat(event.target.value);
-    this.setState({ [event.target.name]: value });
     this.props.updatePropertyInfo(event.target.name, value);
   }
 
@@ -62,7 +49,6 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="address">Address</FormLabel>
               <Input
                 name="address"
-                value={this.state.address}
                 onChange={this.handleTextChange}
                 type="text"
                 id="address"
@@ -78,7 +64,6 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="zip">Zip Code</FormLabel>
               <Input
                 name="zip"
-                value={this.state.zip}
                 onChange={this.handleTextChange}
                 type="text"
                 id="zip"
