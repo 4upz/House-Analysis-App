@@ -27,14 +27,35 @@ export default class App extends React.Component {
       rent: 0,
       initialExpenses: 0,
       monthlyExpenses: 0,
+      holdingTerm: 20,
     };
-    this.calculateResults = this.calculateResults.bind(this);
     this.updatePropertyInfo = this.updatePropertyInfo.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSliderChange = this.handleSliderChange.bind(this);
+    this.calculateResults = this.calculateResults.bind(this);
   }
 
   // Updates the state based on the given field and its updated value
   updatePropertyInfo(field, newVal) {
     this.setState({ [field]: newVal });
+  }
+
+  // Handles input changes within the form component
+  handleInputChange(event) {
+    event.preventDefault();
+    let value;
+    // Retrieve appropriate value format based on input type
+    if (event.target.type === "text") {
+      value = event.target.value;
+    } else {
+      value = isNaN(event.target.value) ? 0 : parseFloat(event.target.value);
+    }
+    this.updatePropertyInfo(event.target.name, value);
+  }
+
+  // Handles slider changes within the results component
+  handleSliderChange(value) {
+    this.updatePropertyInfo("holdingTerm", value);
   }
 
   calculateResults() {
@@ -76,6 +97,7 @@ export default class App extends React.Component {
       cashFlow: cashFlow,
       cocROI: Math.round(10000 * cocROI) / 10000, // round X to ten thousandth
       totalROI: Math.round(10000 * totalROI) / 10000, // round X to ten thousandth
+      holdingTerm: this.state.holdingTerm,
     };
     return results;
   }
@@ -111,15 +133,13 @@ export default class App extends React.Component {
             flexDir="column"
           >
             {/* Form for taking House Info */}
-            <Form
-              updatePropertyInfo={this.updatePropertyInfo}
-              calculateResults={this.calculateResults}
-            />
+            <Form handleInputChange={this.handleInputChange} />
             {/* Only Renders when form is submitted */}
             <Results
               address={this.state.address}
               zip={this.state.zip}
               results={results}
+              handleSliderChange={this.handleSliderChange}
             />
           </Flex>
           <Box className="Footer" py={6} mt={3}>

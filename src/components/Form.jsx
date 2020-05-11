@@ -1,33 +1,16 @@
 import React from "react";
+
+// Chakra UI Components
 import {
   Box,
   FormControl,
   FormLabel,
   FormHelperText,
   Input,
-  Flex,
+  Flex
 } from "@chakra-ui/core";
 
-export default class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  // Updates the state based on the change target value and using its name as a dynamic key name
-  handleInputChange(event) {
-    event.preventDefault();
-    let value;
-    // Retrieve appropriate value format based on input type
-    if (event.target.type === "text") {
-      value = event.target.value;
-    } else {
-      value = isNaN(event.target.value) ? 0 : parseFloat(event.target.value);
-    }
-    this.props.updatePropertyInfo(event.target.name, value);
-  }
-
-  render() {
+export default function Form(props) {
     return (
       <Box
         backgroundColor="white"
@@ -36,7 +19,7 @@ export default class Form extends React.Component {
         textAlign={["center", "left"]}
         className="Card-Display"
       >
-        <form onSubmit={this.handleSubmit}>
+        <form>
           {/* House Location Information */}
           <Flex flexWrap="wrap" justifyContent={["center", "space-between"]}>
             {/* Address Field */}
@@ -44,7 +27,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="address">Address</FormLabel>
               <Input
                 name="address"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="text"
                 id="address"
                 placeholder="21 Jump Street"
@@ -59,7 +42,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="zip">Zip Code</FormLabel>
               <Input
                 name="zip"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="text"
                 id="zip"
                 placeholder="91210"
@@ -76,7 +59,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="price">Purchase Price</FormLabel>
               <Input
                 name="price"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="price"
                 placeholder="120000"
@@ -92,7 +75,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="loan">Loan Amount</FormLabel>
               <Input
                 name="loanAmount"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="loan"
                 placeholder="100000"
@@ -107,7 +90,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="interestRate">Loan Interest Rate</FormLabel>
               <Input
                 name="interestRate"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="interestRate"
                 placeholder="5"
@@ -126,7 +109,7 @@ export default class Form extends React.Component {
                 id="loan-period"
                 placeholder="20"
                 aria-describedby="loan-period-helper-text"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
               />
               <FormHelperText id="loan-period-helper-text" mb="0.5rem">
@@ -139,7 +122,7 @@ export default class Form extends React.Component {
               <FormLabel htmlFor="rent">Estimated Monthly Rent</FormLabel>
               <Input
                 name="rent"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="rent"
                 placeholder="1200"
@@ -156,7 +139,7 @@ export default class Form extends React.Component {
               </FormLabel>
               <Input
                 name="initialExpenses"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="initial-expenses"
                 placeholder="17000"
@@ -173,7 +156,7 @@ export default class Form extends React.Component {
               </FormLabel>
               <Input
                 name="monthlyExpenses"
-                onChange={this.handleInputChange}
+                onChange={props.handleInputChange}
                 type="number"
                 id="monthly-expenses"
                 placeholder="350"
@@ -187,5 +170,4 @@ export default class Form extends React.Component {
         </form>
       </Box>
     );
-  }
 }
