@@ -86,7 +86,7 @@ export default class App extends React.Component {
       this.state.holdingTerm
     );
 
-    // salesExpenses = 6% for real estate agent, 4,000 in closing costs, and 4% painting
+    // salesExpenses = 6% for real estate agent, 4,000 in closing costs, and 4% painting/repair costs
     const projectedSalesExpenses = Math.round(
       projectedSalesPrice * 0.06 + projectedSalesPrice * 0.04 + 4000
     );
