@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import Form from "./components/Form";
-import Results from "./components/Results";
+import Form from "../Form";
+import Results from "../Results";
 
 // Chakra UI Components
 import {
@@ -90,7 +90,7 @@ export default class App extends React.Component {
     const projectedSalesExpenses = Math.round(
       projectedSalesPrice * 0.06 + projectedSalesPrice * 0.04 + 4000
     );
-    
+
     // Calculated overall profit at sale
     const totalProfit =
       projectedSalesPrice -
