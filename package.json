@@ -5,15 +5,15 @@
   "homepage": "http://4upz.github.io/House-Analysis-App",
   "dependencies": {
     "@chakra-ui/core": "^0.7.0",
-    "@emotion/core": "^10.0.28",
+    "@emotion/core": "^10.1.1",
     "@emotion/styled": "^10.0.27",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "emotion-theming": "^10.0.27",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,10 +21,16 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix -src"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "plugin:jsx-a11y/strict",
+      "plugin:prettier/recommended"
+    ]
   },
   "browserslist": {
     "production": [
@@ -39,6 +45,11 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.2.0"
+    "eslint": "^7.24.0",
+    "eslint-plugin-react": "^7.23.2",
+    "gh-pages": "^2.2.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.3.1"
   }
 }
