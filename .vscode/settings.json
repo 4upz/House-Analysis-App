@@ -4,5 +4,9 @@
     "key",
     "zillow",
     "zwsid"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"]
 }
