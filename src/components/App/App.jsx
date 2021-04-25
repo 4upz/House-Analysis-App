@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
-import './App.css';
 import {
   ThemeProvider,
   CSSReset,
@@ -12,6 +11,9 @@ import {
 } from '@chakra-ui/core';
 import Form from '../Form';
 import Results from '../Results';
+import PropertyCalculator from '../../utils/PropertyCalculator';
+
+import './App.css';
 
 // Chakra UI Components
 
@@ -72,18 +74,6 @@ const App = () => {
     return Math.round(100 * (loanAmount / discountFactor)) / 100;
   }
 
-  /*
-      Assumes an average appreciation of 2% per year and returns the
-      projected equity after the length of the current holding term.
-    */
-  function calculatedHouseAppreciation(price, holdingTerm) {
-    let currentEquity = price;
-    for (let i = 0; i < holdingTerm; i += 1) {
-      currentEquity += currentEquity * 0.02;
-    }
-    return Math.round(currentEquity);
-  }
-
   function calculateResults() {
     const {
       price,
@@ -117,7 +107,10 @@ const App = () => {
       loanAmount - holdingTerm * monthlyMortgagePayment * 12;
 
     // salesPrice = Projected equity of annual 2% increase
-    const projectedSalesPrice = calculatedHouseAppreciation(price, holdingTerm);
+    const projectedSalesPrice = PropertyCalculator.calculatedHouseAppreciation(
+      price,
+      holdingTerm
+    );
 
     // salesExpenses = 6% for real estate agent, 4,000 in closing costs, and 4% maintenance costs
     const projectedSalesExpenses = Math.round(
