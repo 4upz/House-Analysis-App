@@ -34,9 +34,9 @@ const App = () => {
   const [state, updateState] = useState(initialState);
 
   // Updates the state based on the given field and its updated value
-  function updatePropertyInfo(field, newVal) {
+  const updatePropertyInfo = (field, newVal) => {
     updateState({ ...state, [field]: newVal });
-  }
+  };
 
   // Handles input changes within the form component
   const handleInputChange = (event) => {
@@ -58,7 +58,7 @@ const App = () => {
     updatePropertyInfo('holdingTerm', value);
   };
 
-  function calculateResults() {
+  const calculateResults = () => {
     const {
       price,
       rent,
@@ -129,7 +129,7 @@ const App = () => {
       totalROI: Math.round(100 * totalROI) / 100, // round to ten hundredth
     };
     return results;
-  }
+  };
 
   const results = calculateResults();
   return (
