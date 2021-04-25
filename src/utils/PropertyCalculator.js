@@ -10,6 +10,21 @@ const PropertyCalculator = {
     }
     return Math.round(currentEquity);
   },
+
+  /** 
+    Calculates Monthly Fixed-Rate Mortgage using the method
+    provided by https://www.thebalance.com/calculate-mortgage-315668
+    (Monthly Loan Payment = Loan Amount / Discount Factor)
+  */
+  calculatedMonthlyMortgage: (loanAmount, interestRate, period) => {
+    const numOfPeriodicPayments = period * 12;
+    const periodicInterestRate = interestRate / 100 / 12;
+    const discountFactor =
+      ((1 + periodicInterestRate) ** numOfPeriodicPayments - 1) /
+      (periodicInterestRate *
+        (1 + periodicInterestRate) ** numOfPeriodicPayments);
+    return Math.round(100 * (loanAmount / discountFactor)) / 100; // Round to nearest hundredth
+  },
 };
 
 export default PropertyCalculator;

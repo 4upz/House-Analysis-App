@@ -39,7 +39,7 @@ const App = () => {
   }
 
   // Handles input changes within the form component
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     event.preventDefault();
     let value;
     // Retrieve appropriate value format based on input type
@@ -51,28 +51,12 @@ const App = () => {
         : parseFloat(event.target.value);
     }
     updatePropertyInfo(event.target.name, value);
-  }
+  };
 
   // Handles slider changes within the results component
-  function handleSliderChange(value) {
+  const handleSliderChange = (value) => {
     updatePropertyInfo('holdingTerm', value);
-  }
-
-  /*
-    Based on Monthly Fixed-Rate Mortgage method
-    Follows steps provided by https://www.thebalance.com/calculate-mortgage-315668
-    Monthly Loan Payment = Loan Amount / Discount Factor
-  */
-  function calculatedMonthlyMortgage(loanAmount, interestRate, period) {
-    const numOfPeriodicPayments = period * 12;
-    const periodicInterestRate = interestRate / 100 / 12;
-    const discountFactor =
-      ((1 + periodicInterestRate) ** numOfPeriodicPayments - 1) /
-      (periodicInterestRate *
-        (1 + periodicInterestRate) ** numOfPeriodicPayments);
-    // Round to nearest hundredth
-    return Math.round(100 * (loanAmount / discountFactor)) / 100;
-  }
+  };
 
   function calculateResults() {
     const {
@@ -91,7 +75,7 @@ const App = () => {
     /* *** Step Two: Total Cost Out of Pocket *** */
     const outOfPocketCosts = totalProjectCost - loanAmount;
     /* *** Step Three: Calculate the monthly mortgage payment (loan amortization) *** */
-    const monthlyMortgagePayment = calculatedMonthlyMortgage(
+    const monthlyMortgagePayment = PropertyCalculator.calculatedMonthlyMortgage(
       loanAmount,
       interestRate,
       loanPeriod
